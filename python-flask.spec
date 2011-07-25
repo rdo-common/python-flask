@@ -3,8 +3,8 @@
 %global srcname Flask
 
 Name:           python-flask
-Version:        0.6.1
-Release:        2%{?dist}
+Version:        0.7.2
+Release:        1%{?dist}
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
 Group:          Development/Libraries
@@ -80,6 +80,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc docs/_build/html examples
 
 %changelog
+* Fri Jul 22 2011 Steve Milner <smilner@fedoraproject.org> - 0.7.2-1
+- update for upstream release
+
 * Thu Feb 24 2011 Dan Young <dyoung@mesd.k12.or.us> - 0.6.1-2
 - fix rpmlint spelling warning
 - BR python2-devel rather than python-devel
