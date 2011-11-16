@@ -4,7 +4,7 @@
 
 Name:           python-flask
 Version:        0.7.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
 Group:          Development/Libraries
@@ -59,6 +59,7 @@ make -C docs html
 
 rm -rf $RPM_BUILD_ROOT%{python_sitelib}/site.py
 rm -rf $RPM_BUILD_ROOT%{python_sitelib}/site.py[co]
+rm -rf $RPM_BUILD_ROOT%{python_sitelib}/easy-install.pth
 rm -rf docs/_build/html/.buildinfo
 rm -rf examples/minitwit/*.pyc
 rm -rf examples/flaskr/*.pyc
@@ -73,13 +74,18 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc AUTHORS LICENSE PKG-INFO CHANGES README
-%{python_sitelib}/*
+%{python_sitelib}/*.egg-info
+%{python_sitelib}/*.egg-link
+%{python_sitelib}/flask
 
 %files doc
 %defattr(-,root,root,-)
 %doc docs/_build/html examples
 
 %changelog
+* Wed Nov 16 2011 Dan Young <dyoung@mesd.k12.or.us> - 0.7.2-2
+- don't own easy-install.pth
+
 * Fri Jul 22 2011 Steve Milner <smilner@fedoraproject.org> - 0.7.2-1
 - update for upstream release
 
