@@ -4,7 +4,7 @@
 
 Name:           python-flask
 Version:        0.7.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
 Group:          Development/Libraries
@@ -83,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc docs/_build/html examples
 
 %changelog
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.7.2-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Wed Nov 16 2011 Dan Young <dyoung@mesd.k12.or.us> - 0.7.2-2
 - don't own easy-install.pth
 
