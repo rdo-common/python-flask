@@ -1,16 +1,17 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 %global srcname Flask
+%global srcversion 0.8
 
 Name:           python-flask
-Version:        0.7.2
-Release:        3%{?dist}
+Version:        0.8.0
+Release:        1%{?dist}
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
 Group:          Development/Libraries
 License:        BSD
 URL:            http://flask.pocoo.org/
-Source0:        http://pypi.python.org/packages/source/F/Flask/%{srcname}-%{version}.tar.gz
+Source0:        http://pypi.python.org/packages/source/F/Flask/%{srcname}-%{srcversion}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
@@ -42,7 +43,7 @@ Requires:       %{name} = %{version}-%{release}
 Documentation and examples for %{name}.
 
 %prep
-%setup -q -n %{srcname}-%{version}
+%setup -q -n %{srcname}-%{srcversion}
 
 %build
 %{__python} setup.py build
@@ -83,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc docs/_build/html examples
 
 %changelog
+* Wed Jan 25 2012 Haïkel Guémar <hguemar@fedoraproject.org> - 0.8.0-1
+- upstream 0.8
+
 * Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.7.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
