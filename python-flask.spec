@@ -1,10 +1,10 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 %global srcname Flask
-%global srcversion 0.8
+%global srcversion 0.8.1
 
 Name:           python-flask
-Version:        0.8.0
+Version:        0.8.1
 Release:        1%{?dist}
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -84,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc docs/_build/html examples
 
 %changelog
+* Sun Jul  1 2012 Haïkel Guémar <hguemar@fedoraproject.org> - 0.8.1-1
+- upstream 0.8.1 (minor bugfixes)
+
 * Wed Jan 25 2012 Haïkel Guémar <hguemar@fedoraproject.org> - 0.8.0-1
 - upstream 0.8
 
