@@ -1,10 +1,8 @@
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-
 %global srcname Flask
-%global srcversion 0.8.1
+%global srcversion 0.9
 
 Name:           python-flask
-Version:        0.8.1
+Version:        0.9.0
 Release:        1%{?dist}
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -12,7 +10,6 @@ Group:          Development/Libraries
 License:        BSD
 URL:            http://flask.pocoo.org/
 Source0:        http://pypi.python.org/packages/source/F/Flask/%{srcname}-%{srcversion}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 BuildRequires:  python2-devel
@@ -49,18 +46,17 @@ Documentation and examples for %{name}.
 %{__python} setup.py build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
+%{__python} setup.py install -O1 --skip-build --root %{buildroot}
 
 # Need to install flask in the setuptools "develop" mode to build docs
 # The BuildRequires on Werkzeug, Jinja2 and Sphinx is due to this as well.
-export PYTHONPATH=$RPM_BUILD_ROOT%{python_sitelib}
-%{__python} setup.py develop --install-dir $RPM_BUILD_ROOT%{python_sitelib}
+export PYTHONPATH=%{buildroot}%{python_sitelib}
+%{__python} setup.py develop --install-dir %{buildroot}%{python_sitelib}
 make -C docs html
 
-rm -rf $RPM_BUILD_ROOT%{python_sitelib}/site.py
-rm -rf $RPM_BUILD_ROOT%{python_sitelib}/site.py[co]
-rm -rf $RPM_BUILD_ROOT%{python_sitelib}/easy-install.pth
+rm -rf %{buildroot}%{python_sitelib}/site.py
+rm -rf %{buildroot}%{python_sitelib}/site.py[co]
+rm -rf %{buildroot}%{python_sitelib}/easy-install.pth
 rm -rf docs/_build/html/.buildinfo
 rm -rf examples/minitwit/*.pyc
 rm -rf examples/flaskr/*.pyc
@@ -69,21 +65,20 @@ rm -rf examples/jqueryexample/*.pyc
 %check
 %{__python} setup.py test
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %files
-%defattr(-,root,root,-)
 %doc AUTHORS LICENSE PKG-INFO CHANGES README
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/*.egg-link
 %{python_sitelib}/flask
 
 %files doc
-%defattr(-,root,root,-)
 %doc docs/_build/html examples
 
 %changelog
+* Mon Jul  2 2012 Haïkel Guémar <hguemar@fedoraproject.org> - 0.9.0-1
+- upstream 0.9
+- spec cleanups
+
 * Sun Jul  1 2012 Haïkel Guémar <hguemar@fedoraproject.org> - 0.8.1-1
 - upstream 0.8.1 (minor bugfixes)
 
