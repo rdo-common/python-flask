@@ -3,7 +3,7 @@
 
 Name:           python-flask
 Version:        0.9.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
 Group:          Development/Libraries
@@ -75,6 +75,9 @@ rm -rf examples/jqueryexample/*.pyc
 %doc docs/_build/html examples
 
 %changelog
+* Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Mon Jul  2 2012 Haïkel Guémar <hguemar@fedoraproject.org> - 0.9.0-1
 - upstream 0.9
 - spec cleanups
