@@ -2,7 +2,7 @@
 %global srcversion 0.9
 
 Name:           python-flask
-Version:        0.9.0
+Version:        0.9
 Release:        2%{?dist}
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -12,11 +12,18 @@ URL:            http://flask.pocoo.org/
 Source0:        http://pypi.python.org/packages/source/F/Flask/%{srcname}-%{srcversion}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python2-devel
-BuildRequires:  python-setuptools-devel
-BuildRequires:  python-jinja2 python-werkzeug python-sphinx
+BuildRequires:  python2-devel python-setuptools-devel python-werkzeug python-sphinx
+Requires:       python-werkzeug python-sphinx
 
-Requires:       python-jinja2 python-werkzeug
+%if 0%{?rhel}
+BuildRequires:  python-jinja2-26
+Requires:       python-jinja2-26
+%else
+BuildRequires:  python-jinja2
+Requires:       python-jinja2
+%endif
+
+
 
 %description
 Flask is called a “micro-framework” because the idea to keep the core
@@ -41,6 +48,9 @@ Documentation and examples for %{name}.
 
 %prep
 %setup -q -n %{srcname}-%{srcversion}
+#%if 0%%{?rhel}
+%{__sed} -i "1i __requires__ = ['Jinja2>=2.4']" setup.py
+#%endif
 
 %build
 %{__python} setup.py build
