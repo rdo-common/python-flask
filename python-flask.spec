@@ -85,7 +85,7 @@ rm -rf examples/jqueryexample/*.pyc
 
 %changelog
 * Wed Aug 8 2012 Ricky Elrod <codeblock@fedoraproject.org> - 0.9-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+- Unified spec for EL6 and Fedora
 
 * Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
