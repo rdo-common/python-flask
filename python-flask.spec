@@ -3,7 +3,7 @@
 
 Name:           python-flask
 Version:        0.9
-Release:        4%{?dist}
+Release:        5%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -41,7 +41,7 @@ authentication technologies and more.
 %package doc
 Summary:        Documentation for %{name}
 Group:          Documentation
-Requires:       %{name} = %{version}-%{release}
+Requires:       %{name} = %{epoch}:%{version}-%{release}
 
 
 %description doc
@@ -84,6 +84,9 @@ rm -rf examples/jqueryexample/*.pyc
 %doc docs/_build/html examples
 
 %changelog
+* Wed Aug 17 2012 Ricky Elrod <codeblock@fedoraproject.org> - 0.9-5
+- Add epoch to subpackage Requires.
+
 * Wed Aug 8 2012 Ricky Elrod <codeblock@fedoraproject.org> - 0.9-4
 - Fix changelog messup.
 
