@@ -3,7 +3,7 @@
 
 Name:           python-flask
 Version:        0.9
-Release:        5%{?dist}
+Release:        6%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -84,6 +84,9 @@ rm -rf examples/jqueryexample/*.pyc
 %doc docs/_build/html examples
 
 %changelog
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:0.9-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Wed Aug 17 2012 Ricky Elrod <codeblock@fedoraproject.org> - 0.9-5
 - Add epoch to subpackage Requires.
 
