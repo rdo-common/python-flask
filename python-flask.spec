@@ -31,7 +31,7 @@ Requires:       python-itsdangerous
 BuildRequires:  python-jinja2
 BuildRequires:  python-itsdangerous
 Requires:       python-jinja2
-Requires:       python-itsdangerosu
+Requires:       python-itsdangerous
 %endif
 
 %description
