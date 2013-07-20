@@ -9,7 +9,7 @@
 
 Name:           python-flask
 Version:        0.10.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -139,6 +139,7 @@ make -C docs html
 rm -rf %{buildroot}%{python3_sitelib}/site.py
 rm -rf %{buildroot}%{python3_sitelib}/site.py[co]
 rm -rf %{buildroot}%{python3_sitelib}/easy-install.pth
+rm -rf %{buildroot}%{python3_sitelib}/__pycache__/site.cpython-33.pyc
 rm -rf docs/_build/html/.buildinfo
 rm -rf examples/minitwit/*.pyc
 rm -rf examples/flaskr/*.pyc
@@ -179,6 +180,9 @@ popd
 
 
 %changelog
+* Sat Jul 20 2013 Ricky Elrod <codeblock@fedoraproject.org> - 1:0.10.1-2
+- Nuke a Python3 specific file owned by python3-setuptools.
+
 * Sat Jun 15 2013 Haïkel Guémar <hguemar@fedoraproject.org> - 1:0.10.1-1
 - upstream 0.10.1
 
