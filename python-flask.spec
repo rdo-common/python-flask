@@ -9,7 +9,7 @@
 
 Name:           python-flask
 Version:        0.10.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -20,7 +20,7 @@ Source0:        http://pypi.python.org/packages/source/F/Flask/%{srcname}-%{srcv
 
 BuildArch:      noarch
 BuildRequires:  python2-devel python-setuptools python-werkzeug python-sphinx
-Requires:       python-werkzeug python-sphinx
+Requires:       python-werkzeug
 
 %if 0%{?rhel}
 BuildRequires:  python-jinja2-26
@@ -64,7 +64,6 @@ BuildRequires:  python3-sphinx
 BuildRequires:  python3-itsdangerous
 Requires:       python3-jinja2
 Requires:       python3-werkzeug
-Requires:       python3-sphinx
 Requires:       python3-itsdangerous
 
 %description -n python3-flask
@@ -180,6 +179,9 @@ popd
 
 
 %changelog
+* Mon Jul 29 2013 Haïkel Guémar <hguemar@fedoraproject.org> - 1:0.10.1-3
+- fix wrong requires on sphinx (RHBZ #989361)
+
 * Sat Jul 20 2013 Ricky Elrod <codeblock@fedoraproject.org> - 1:0.10.1-2
 - Nuke a Python3 specific file owned by python3-setuptools.
 
