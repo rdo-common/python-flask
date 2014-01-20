@@ -22,7 +22,7 @@ BuildArch:      noarch
 BuildRequires:  python2-devel python-setuptools python-werkzeug python-sphinx
 Requires:       python-werkzeug
 
-%if 0%{?rhel}
+%if 0%{?rhel} < 7
 BuildRequires:  python-jinja2-26
 BuildRequires:  python-itsdangerous
 Requires:       python-jinja2-26
