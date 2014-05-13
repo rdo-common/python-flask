@@ -9,7 +9,7 @@
 
 Name:           python-flask
 Version:        0.10.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -22,7 +22,8 @@ BuildArch:      noarch
 BuildRequires:  python2-devel python-setuptools python-werkzeug python-sphinx
 Requires:       python-werkzeug
 
-%if 0%{?rhel} < 7
+# if we're not on rhel, 0%%{?rhel} < 7, so we need to also check for 0%{?rhel}
+%if 0%{?rhel} && 0%{?rhel} < 7
 BuildRequires:  python-jinja2-26
 BuildRequires:  python-itsdangerous
 Requires:       python-jinja2-26
@@ -138,7 +139,7 @@ make -C docs html
 rm -rf %{buildroot}%{python3_sitelib}/site.py
 rm -rf %{buildroot}%{python3_sitelib}/site.py[co]
 rm -rf %{buildroot}%{python3_sitelib}/easy-install.pth
-rm -rf %{buildroot}%{python3_sitelib}/__pycache__/site.cpython-33.pyc
+rm -rf %{buildroot}%{python3_sitelib}/__pycache__/site.cpython-3?.pyc
 rm -rf docs/_build/html/.buildinfo
 rm -rf examples/minitwit/*.pyc
 rm -rf examples/flaskr/*.pyc
@@ -179,6 +180,10 @@ popd
 
 
 %changelog
+* Tue May 13 2014 Bohuslav Kabrda <bkabrda@redhat.com> - 1:0.10.1-4
+- Rebuilt for https://fedoraproject.org/wiki/Changes/Python_3.4
+- Minor fix to rhel macro logic
+
 * Mon Jul 29 2013 Haïkel Guémar <hguemar@fedoraproject.org> - 1:0.10.1-3
 - fix wrong requires on sphinx (RHBZ #989361)
 
