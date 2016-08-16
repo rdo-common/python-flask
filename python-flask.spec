@@ -5,11 +5,11 @@
 %endif
 
 %global srcname Flask
-%global srcversion 0.10.1
+%global srcversion 0.11.1
 
 Name:           python-flask
-Version:        0.10.1
-Release:        9%{?dist}
+Version:        %{srcversion}
+Release:        1%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -180,6 +180,9 @@ popd
 
 
 %changelog
+* Tue Aug 16 2016 Ricky Elrod <relrod@redhat.com> - 1:0.11.1-1
+- Latest upstream release.
+
 * Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:0.10.1-9
 - https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
 
