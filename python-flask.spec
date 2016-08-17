@@ -9,7 +9,7 @@
 
 Name:           python-flask
 Version:        %{srcversion}
-Release:        1%{?dist}
+Release:        2%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -194,6 +194,9 @@ popd
 
 
 %changelog
+* Tue Aug 16 2016 Ricky Elrod <relrod@redhat.com> - 1:0.11.1-2
+- Attempt a completely fresh build with new NVR.
+
 * Tue Aug 16 2016 Ricky Elrod <relrod@redhat.com> - 1:0.11.1-1
 - Latest upstream release.
 
