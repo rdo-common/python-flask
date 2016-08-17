@@ -20,7 +20,8 @@ Source0:        http://pypi.python.org/packages/source/F/Flask/%{srcname}-%{srcv
 
 BuildArch:      noarch
 BuildRequires:  python2-devel python-setuptools python-werkzeug python-sphinx
-Requires:       python-werkzeug
+BuildRequires:  python-click
+Requires:       python-werkzeug python-click
 
 # if we're not on rhel, 0%%{?rhel} < 7, so we need to also check for 0%{?rhel}
 %if 0%{?rhel} && 0%{?rhel} < 7
@@ -63,9 +64,11 @@ BuildRequires:  python3-jinja2
 BuildRequires:  python3-werkzeug
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-itsdangerous
+BuildRequires:  python3-click
 Requires:       python3-jinja2
 Requires:       python3-werkzeug
 Requires:       python3-itsdangerous
+Requires:       python3-click
 
 %description -n python3-flask
 Flask is called a “micro-framework” because the idea to keep the core
@@ -115,7 +118,7 @@ popd
 # Need to install flask in the setuptools "develop" mode to build docs
 # The BuildRequires on Werkzeug, Jinja2 and Sphinx is due to this as well.
 export PYTHONPATH=%{buildroot}%{python_sitelib}
-%{__python} setup.py develop --install-dir %{buildroot}%{python_sitelib}
+%{__python} setup.py develop --prefix %{buildroot}/%{_prefix}
 make -C docs html
 
 rm -rf %{buildroot}%{python_sitelib}/site.py
@@ -127,13 +130,17 @@ rm -rf examples/flaskr/*.pyc
 rm -rf examples/jqueryexample/*.pyc
 
 %if 0%{?with_python3}
+
+# Move the python2-installed script so it doesn't get overwritten.
+mv %{buildroot}/%{_bindir}/flask %{buildroot}/%{_bindir}/python2-flask
+
 pushd %{py3dir}
 %{__python3} setup.py install -O1 --skip-build --root %{buildroot}
 
 # Need to install flask in the setuptools "develop" mode to build docs
 # The BuildRequires on Werkzeug, Jinja2 and Sphinx is due to this as well.
 export PYTHONPATH=%{buildroot}%{python3_sitelib}
-%{__python3} setup.py develop --install-dir %{buildroot}%{python3_sitelib}
+%{__python3} setup.py develop --prefix %{buildroot}/%{_prefix}
 make -C docs html
 
 rm -rf %{buildroot}%{python3_sitelib}/site.py
@@ -144,6 +151,11 @@ rm -rf docs/_build/html/.buildinfo
 rm -rf examples/minitwit/*.pyc
 rm -rf examples/flaskr/*.pyc
 rm -rf examples/jqueryexample/*.pyc
+
+# Do some juggling to put `flask` (python2) back in place.
+mv %{buildroot}/%{_bindir}/flask %{buildroot}/%{_bindir}/python3-flask
+mv %{buildroot}/%{_bindir}/python2-flask %{buildroot}/%{_bindir}/flask
+
 popd
 %endif
 
@@ -163,6 +175,7 @@ popd
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/*.egg-link
 %{python_sitelib}/flask
+%{_bindir}/flask
 
 %files doc
 %doc docs/_build/html examples
@@ -173,6 +186,7 @@ popd
 %{python3_sitelib}/*.egg-info
 %{python3_sitelib}/*.egg-link
 %{python3_sitelib}/flask
+%{_bindir}/python3-flask
 
 %files -n python3-flask-doc
 %doc docs/_build/html examples
