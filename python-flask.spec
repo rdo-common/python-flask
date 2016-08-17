@@ -140,7 +140,7 @@ pushd %{py3dir}
 # Need to install flask in the setuptools "develop" mode to build docs
 # The BuildRequires on Werkzeug, Jinja2 and Sphinx is due to this as well.
 export PYTHONPATH=%{buildroot}%{python3_sitelib}
-%{__python3} setup.py develop --prefix %{buildroot}/%{_prefix}
+%{__python3} setup.py develop --prefix %{buildroot}/%{_prefix} --install-dir %{buildroot}/%{python3_sitelib}
 make -C docs html
 
 rm -rf %{buildroot}%{python3_sitelib}/site.py
