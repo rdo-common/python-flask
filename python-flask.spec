@@ -1,68 +1,57 @@
-%if 0%{?fedora} > 12
-%global with_python3 1
-%else
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%endif
-
+%global modname flask
 %global srcname Flask
-%global srcversion 0.11.1
 
-Name:           python-flask
-Version:        %{srcversion}
-Release:        2%{?dist}
+Name:           python-%{modname}
+Version:        0.11.1
+Release:        3%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
-Group:          Development/Libraries
 License:        BSD
 URL:            http://flask.pocoo.org/
-Source0:        http://pypi.python.org/packages/source/F/Flask/%{srcname}-%{srcversion}.tar.gz
+Source0:        https://files.pythonhosted.org/packages/source/%(n=%{srcname}; echo ${n:0:1})/%{srcname}/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python2-devel python-setuptools python-werkzeug python-sphinx
-BuildRequires:  python-click
-Requires:       python-werkzeug python-click
 
-# if we're not on rhel, 0%%{?rhel} < 7, so we need to also check for 0%{?rhel}
-%if 0%{?rhel} && 0%{?rhel} < 7
-BuildRequires:  python-jinja2-26
-BuildRequires:  python-itsdangerous
-Requires:       python-jinja2-26
-Requires:       python-itsdangerous
-%else
-BuildRequires:  python-jinja2
-BuildRequires:  python-itsdangerous
-Requires:       python-jinja2
-Requires:       python-itsdangerous
-%endif
-
-%description
-Flask is called a “micro-framework” because the idea to keep the core
-simple but extensible. There is no database abstraction layer, no form
-validation or anything else where different libraries already exist
-that can handle that. However Flask knows the concept of extensions
-that can add this functionality into your application as if it was
-implemented in Flask itself. There are currently extensions for object
-relational mappers, form validation, upload handling, various open
+%global _description \
+Flask is called a “micro-framework” because the idea to keep the core\
+simple but extensible. There is no database abstraction layer, no form\
+validation or anything else where different libraries already exist\
+that can handle that. However Flask knows the concept of extensions\
+that can add this functionality into your application as if it was\
+implemented in Flask itself. There are currently extensions for object\
+relational mappers, form validation, upload handling, various open\
 authentication technologies and more.
 
+%description %{_description}
 
-%package doc
-Summary:        Documentation for %{name}
-Group:          Documentation
-Requires:       %{name} = %{epoch}:%{version}-%{release}
+%package -n python2-%{modname}
+Summary:        %{summary}
+%{?python_provide:%python_provide python2-%{modname}}
+BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
+BuildRequires:  python2-pytest
+BuildRequires:  python-jinja2
+BuildRequires:  python-werkzeug
+BuildRequires:  python-itsdangerous
+BuildRequires:  python-click
+Requires:       python-jinja2
+Requires:       python-werkzeug
+Requires:       python-itsdangerous
+Requires:       python-click
 
-%description doc
-Documentation and examples for %{name}.
+%description -n python2-%{modname} %{_description}
 
-%if 0%{?with_python3}
-%package -n python3-flask
-Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
+Python 2 version.
+
+%package -n python3-%{modname}
+Summary:        %{summary}
+%{?python_provide:%python_provide python3-%{modname}}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
+BuildRequires:  python3-pytest
 BuildRequires:  python3-jinja2
 BuildRequires:  python3-werkzeug
-BuildRequires:  python3-sphinx
 BuildRequires:  python3-itsdangerous
 BuildRequires:  python3-click
 Requires:       python3-jinja2
@@ -70,130 +59,68 @@ Requires:       python3-werkzeug
 Requires:       python3-itsdangerous
 Requires:       python3-click
 
-%description -n python3-flask
-Flask is called a “micro-framework” because the idea to keep the core
-simple but extensible. There is no database abstraction layer, no form
-validation or anything else where different libraries already exist
-that can handle that. However Flask knows the concept of extensions
-that can add this functionality into your application as if it was
-implemented in Flask itself. There are currently extensions for object
-relational mappers, form validation, upload handling, various open
-authentication technologies and more.
+%description -n python3-%{modname} %{_description}
 
+Python 3 version.
 
-%package -n python3-flask-doc
-Summary:        Documentation for python3-flask
-Group:          Documentation
-Requires:       python3-flask = %{epoch}:%{version}-%{release}
+%package doc
+Summary:        Documentation for %{name}
+Obsoletes:      python3-%{modname}-doc < 1:0.11.1-3
+BuildRequires:  python-sphinx
 
-%description -n python3-flask-doc
-Documentation and examples for python3-flask.
-%endif
-
+%description doc
+Documentation and examples for %{name}.
 
 %prep
-%setup -q -n %{srcname}-%{srcversion}
-%{__sed} -i "/platforms/ a\    requires=['Jinja2 (>=2.4)']," setup.py
-
-%if 0%{?with_python3}
-rm -rf %{py3dir}
-cp -a . %{py3dir}
-find %{py3dir} -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
-%endif
-
+%autosetup -n %{srcname}-%{version}
 
 %build
-%{__python} setup.py build
-
-%if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py build
-popd
-%endif
-
+%py2_build
+%py3_build
+PYTHONPATH=`pwd` sphinx-build -b html docs/ docs/_build/html/
 
 %install
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%py2_install
+mv %{buildroot}%{_bindir}/%{modname}{,-%{python2_version}}
+ln -s %{modname}-%{python2_version} %{buildroot}%{_bindir}/%{modname}-2
 
-# Need to install flask in the setuptools "develop" mode to build docs
-# The BuildRequires on Werkzeug, Jinja2 and Sphinx is due to this as well.
-export PYTHONPATH=%{buildroot}%{python_sitelib}
-%{__python} setup.py develop --prefix %{buildroot}/%{_prefix}
-make -C docs html
+%py3_install
+mv %{buildroot}%{_bindir}/%{modname}{,-%{python3_version}}
+ln -s %{modname}-%{python3_version} %{buildroot}%{_bindir}/%{modname}-3
 
-rm -rf %{buildroot}%{python_sitelib}/site.py
-rm -rf %{buildroot}%{python_sitelib}/site.py[co]
-rm -rf %{buildroot}%{python_sitelib}/easy-install.pth
-rm -rf docs/_build/html/.buildinfo
-rm -rf examples/minitwit/*.pyc
-rm -rf examples/flaskr/*.pyc
-rm -rf examples/jqueryexample/*.pyc
-
-%if 0%{?with_python3}
-
-# Move the python2-installed script so it doesn't get overwritten.
-mv %{buildroot}/%{_bindir}/flask %{buildroot}/%{_bindir}/python2-flask
-
-pushd %{py3dir}
-%{__python3} setup.py install -O1 --skip-build --root %{buildroot}
-
-# Need to install flask in the setuptools "develop" mode to build docs
-# The BuildRequires on Werkzeug, Jinja2 and Sphinx is due to this as well.
-export PYTHONPATH=%{buildroot}%{python3_sitelib}
-%{__python3} setup.py develop --prefix %{buildroot}/%{_prefix} --install-dir %{buildroot}/%{python3_sitelib}
-make -C docs html
-
-rm -rf %{buildroot}%{python3_sitelib}/site.py
-rm -rf %{buildroot}%{python3_sitelib}/site.py[co]
-rm -rf %{buildroot}%{python3_sitelib}/easy-install.pth
-rm -rf %{buildroot}%{python3_sitelib}/__pycache__/site.cpython-3?.pyc
-rm -rf docs/_build/html/.buildinfo
-rm -rf examples/minitwit/*.pyc
-rm -rf examples/flaskr/*.pyc
-rm -rf examples/jqueryexample/*.pyc
-
-# Do some juggling to put `flask` (python2) back in place.
-mv %{buildroot}/%{_bindir}/flask %{buildroot}/%{_bindir}/python3-flask
-mv %{buildroot}/%{_bindir}/python2-flask %{buildroot}/%{_bindir}/flask
-
-popd
-%endif
-
+ln -sf %{modname}-2 %{buildroot}%{_bindir}/%{modname}
 
 %check
-%{__python} setup.py test
+PYTHONPATH=%{buildroot}%{python2_sitelib} py.test-%{python2_version} -v
+PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v
 
-%if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py test
-popd
-%endif
+%files -n python2-%{modname}
+%license LICENSE
+%doc CHANGES README
+%{_bindir}/%{modname}-2
+%{_bindir}/%{modname}-%{python2_version}
+%{python2_sitelib}/%{srcname}-*.egg-info/
+%{python2_sitelib}/%{modname}/
 
+%{_bindir}/%{modname}
 
-%files
-%doc AUTHORS LICENSE PKG-INFO CHANGES README
-%{python_sitelib}/*.egg-info
-%{python_sitelib}/*.egg-link
-%{python_sitelib}/flask
-%{_bindir}/flask
+%files -n python3-%{modname}
+%license LICENSE
+%doc CHANGES README
+%{_bindir}/%{modname}-3
+%{_bindir}/%{modname}-%{python3_version}
+%{python3_sitelib}/%{srcname}-*.egg-info/
+%{python3_sitelib}/%{modname}/
 
 %files doc
+%license LICENSE
 %doc docs/_build/html examples
-
-%if 0%{?with_python3}
-%files -n python3-flask
-%doc AUTHORS LICENSE PKG-INFO CHANGES README
-%{python3_sitelib}/*.egg-info
-%{python3_sitelib}/*.egg-link
-%{python3_sitelib}/flask
-%{_bindir}/python3-flask
-
-%files -n python3-flask-doc
-%doc docs/_build/html examples
-%endif
-
 
 %changelog
+* Mon Aug 22 2016 Igor Gnatenko <ignatenko@redhat.com> - 1:0.11.1-3
+- Fix FTBFS
+- Ton of fixes in spec
+
 * Tue Aug 16 2016 Ricky Elrod <relrod@redhat.com> - 1:0.11.1-2
 - Attempt a completely fresh build with new NVR.
 
