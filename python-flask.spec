@@ -73,11 +73,13 @@ Documentation and examples for %{name}.
 
 %prep
 %autosetup -n %{srcname}-%{version}
+rm -vf examples/flaskr/.gitignore
 
 %build
 %py2_build
 %py3_build
 PYTHONPATH=`pwd` sphinx-build -b html docs/ docs/_build/html/
+rm -rf docs/_build/html/{.buildinfo,.doctrees}
 
 %install
 %py2_install
