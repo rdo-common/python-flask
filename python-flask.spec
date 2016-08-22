@@ -91,6 +91,7 @@ ln -s %{modname}-%{python3_version} %{buildroot}%{_bindir}/%{modname}-3
 ln -sf %{modname}-2 %{buildroot}%{_bindir}/%{modname}
 
 %check
+export LC_ALL=C.UTF-8
 PYTHONPATH=%{buildroot}%{python2_sitelib} py.test-%{python2_version} -v
 PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v
 
