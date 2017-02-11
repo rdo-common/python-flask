@@ -3,7 +3,7 @@
 
 Name:           python-%{modname}
 Version:        0.11.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -120,6 +120,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v || :
 %doc docs/_build/html examples
 
 %changelog
+* Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.11.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Tue Dec 13 2016 Stratakis Charalampos <cstratak@redhat.com> - 1:0.11.1-4
 - Rebuild for Python 3.6
 - Have rpmbuild to not fail on python3 test failures
