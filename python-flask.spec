@@ -3,7 +3,7 @@
 
 Name:           python-%{modname}
 Version:        0.11.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -120,6 +120,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v || :
 %doc docs/_build/html examples
 
 %changelog
+* Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.11.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.11.1-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
