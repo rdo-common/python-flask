@@ -3,7 +3,7 @@
 
 Name:           python-%{modname}
 Version:        0.11.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -31,14 +31,14 @@ Summary:        %{summary}
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-pytest
-BuildRequires:  python-jinja2
-BuildRequires:  python-werkzeug
-BuildRequires:  python-itsdangerous
-BuildRequires:  python-click
-Requires:       python-jinja2
-Requires:       python-werkzeug
-Requires:       python-itsdangerous
-Requires:       python-click
+BuildRequires:  python2-jinja2
+BuildRequires:  python2-werkzeug
+BuildRequires:  python2-itsdangerous
+BuildRequires:  python2-click
+Requires:       python2-jinja2
+Requires:       python2-werkzeug
+Requires:       python2-itsdangerous
+Requires:       python2-click
 
 %description -n python2-%{modname} %{_description}
 
@@ -66,7 +66,7 @@ Python 3 version.
 %package doc
 Summary:        Documentation for %{name}
 Obsoletes:      python3-%{modname}-doc < 1:0.11.1-3
-BuildRequires:  python-sphinx
+BuildRequires:  python2-sphinx
 
 %description doc
 Documentation and examples for %{name}.
@@ -120,6 +120,10 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v || :
 %doc docs/_build/html examples
 
 %changelog
+* Thu Jan 18 2018 Iryna Shcherbina <ishcherb@redhat.com> - 1:0.11.1-7
+- Update Python 2 dependency declarations to new packaging standards
+  (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1:0.11.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
