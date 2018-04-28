@@ -2,7 +2,7 @@
 %global srcname Flask
 
 Name:           python-%{modname}
-Version:        0.12.2
+Version:        1.0
 Release:        1%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
@@ -131,6 +131,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v || :
 %doc docs/_build/html examples
 
 %changelog
+* Fri Apr 27 2018 Ricky Elrod <relrod@redhat.com> - 1:1.0-1
+- new version 
+
 * Thu Feb 15 2018 itamar <itamar@ispbrasil.com.br> - 1:0.12.2-1
 - new version
 
