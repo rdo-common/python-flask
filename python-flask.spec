@@ -89,8 +89,6 @@ rm -rf examples/minitwit/
 %build
 %py2_build
 %py3_build
-PYTHONPATH=`pwd` sphinx-build -b html docs/ docs/_build/html/
-rm -rf docs/_build/html/{.buildinfo,.doctrees}
 
 %install
 %py2_install
@@ -128,11 +126,12 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v || :
 
 %files doc
 %license LICENSE
-%doc docs/_build/html examples
+%doc examples
 
 %changelog
 * Fri Jun 01 2018 Ken Dreyer <ktdreyer@ktdreyer.com> 1:1.0.2-1
 - Update to 1.0.2 (rhbz#1572414)
+- Do not build Sphinx docs (pallet-sphinx-themes not available)
 
 * Fri Apr 27 2018 Ricky Elrod <relrod@redhat.com> - 1:1.0-1
 - new version 
