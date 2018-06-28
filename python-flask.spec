@@ -1,6 +1,10 @@
 %global modname flask
 %global srcname Flask
 
+%if 0%{?fedora}
+%global with_python3 1
+%endif
+
 Name:           python-%{modname}
 Version:        1.0.2
 Release:        1%{?dist}
@@ -54,6 +58,7 @@ Requires:       python-itsdangerous
 
 Python 2 version.
 
+%if 0%{?with_python3}
 %package -n python%{python3_pkgversion}-%{modname}
 Summary:        %{summary}
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{modname}}
@@ -72,6 +77,7 @@ Requires:       python%{python3_pkgversion}-click
 %description -n python%{python3_pkgversion}-%{modname} %{_description}
 
 Python 3 version.
+%endif
 
 %package doc
 Summary:        Documentation for %{name}
@@ -88,23 +94,29 @@ rm -rf examples/minitwit/
 
 %build
 %py2_build
+%if 0%{?with_python3}
 %py3_build
+%endif
 
 %install
 %py2_install
 mv %{buildroot}%{_bindir}/%{modname}{,-%{python2_version}}
 ln -s %{modname}-%{python2_version} %{buildroot}%{_bindir}/%{modname}-2
 
+%if 0%{?with_python3}
 %py3_install
 mv %{buildroot}%{_bindir}/%{modname}{,-%{python3_version}}
 ln -s %{modname}-%{python3_version} %{buildroot}%{_bindir}/%{modname}-3
+%endif
 
 ln -sf %{modname}-2 %{buildroot}%{_bindir}/%{modname}
 
 %check
 export LC_ALL=C.UTF-8
 PYTHONPATH=%{buildroot}%{python2_sitelib} py.test-%{python2_version} -v
+%if 0%{?with_python3}
 PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v || :
+%endif
 
 %files -n python2-%{modname}
 %license LICENSE
@@ -116,6 +128,7 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v || :
 
 %{_bindir}/%{modname}
 
+%if 0%{?with_python3}
 %files -n python%{python3_pkgversion}-%{modname}
 %license LICENSE
 %doc CHANGES.rst README.rst
@@ -123,6 +136,7 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v || :
 %{_bindir}/%{modname}-%{python3_version}
 %{python3_sitelib}/%{srcname}-*.egg-info/
 %{python3_sitelib}/%{modname}/
+%endif
 
 %files doc
 %license LICENSE
